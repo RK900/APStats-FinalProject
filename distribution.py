@@ -9,6 +9,12 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy import stats
 import seaborn; seaborn.set()
+import math
+
+n = 40 # sample size
+pHat = 0.5
+qHat = 1 - p
+se = math.sqrt((pHat*qHat)/n)
 
 x_axis = np.arange(-7, 7, 0.001)
 
