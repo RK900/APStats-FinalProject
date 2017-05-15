@@ -31,36 +31,49 @@ while pval + delta <= error:
         sd = math.sqrt((p_o*(1-p_o))/n)
         p0xdeltaz = (p_o + delta - pHat)/se
         p0xz = (p_o - pHat)/se
-        prob_p0 = stats.norm.pdf(p0xdeltaz) - stats.norm.pdf(p0xz)
+        prob_p0 = stats.norm.cdf(p0xdeltaz) - stats.norm.cdf(p0xz)
         
         median = p_o + delta/2
         pvaldeltaz = (pval+delta-median)/sd
         pvalz = (pval-median)/sd
-        probabilityboth = (stats.norm.pdf(pvaldeltaz)-stats.norm.pdf(pvalz))*prob_p0
+        probabilityboth = (stats.norm.cdf(pvaldeltaz)-stats.norm.cdf(pvalz))*prob_p0
         
         val_pval += probabilityboth
         
         p_o+=delta
         
-    compared[ind1] = val_pval
+    #compared[ind1] = val_pval
+    compared.append(val_pval)
     ind1+=1
     pval+=delta
     
-n /= 2
+n_n = n/2
+se_n = math.sqrt((pHat*qHat)/n_n)
 initial = delta
 
 while (initial + delta <= error):
-    high = (initial+delta-phat)/se
-    low = (initial-pHat)/se
-    prob = (stats.norm.pdf(high)-stats.norm.pdf(low))
+    high = (initial+delta-pHat)/se_n
+    low = (initial-pHat)/se_n
+    prob = (stats.norm.cdf(high)-stats.norm.cdf(low))
     
-    normal[ind2] = prob
+    #normal[ind2] = prob
+    normal.append(prob)
     ind2+=1
     initial += delta
-    
-for i in range(len(99)):
+'''  
+for i in range(99):
     print i+1,normal[i],compared[i],
+'''
 
-x_axis = np.arange(-7, 7, 0.001)
-
+x_axis = np.arange(-20, 100, 0.001)
+x = np.arange(-0.05,0.05,0.001)
 plt.plot(x_axis, stats.norm.pdf(x_axis,0,2))
+
+print compared
+
+plt.plot(np.array(compared))
+
+prop = .50
+std = math.sqrt((.50*.50)/20)
+pdf = stats.norm.pdf(prop, std)
+plt.plot(np.array(pdf))
