@@ -10,9 +10,10 @@ from matplotlib import pyplot as plt
 from scipy import stats
 import seaborn; seaborn.set()
 import math
+import os
 
-n = 40 # sample size
-pHat = 0.5
+n = 20 # sample size
+pHat = 0.1
 qHat = 1 - pHat
 se = math.sqrt((pHat*qHat)/n)
 delta = 0.01
@@ -67,13 +68,16 @@ for i in range(99):
 
 x_axis = np.arange(-20, 100, 0.001)
 x = np.arange(-0.05,0.05,0.001)
-plt.plot(x_axis, stats.norm.pdf(x_axis,0,2))
+#plt.plot(x_axis, stats.norm.pdf(x_axis,0,2))
 
-print compared
+#print compared
+
+
+prop = .10
+std = math.sqrt((.10*.90)/10)
+pdf = stats.norm.pdf(prop, std)
+#plt.plot(np.array(pdf))
 
 plt.plot(np.array(compared))
-
-prop = .50
-std = math.sqrt((.50*.50)/20)
-pdf = stats.norm.pdf(prop, std)
-plt.plot(np.array(pdf))
+plt.ylim([0,0.06])
+#plt.savefig(os.getcwd()+'/p1n20-c.png')
